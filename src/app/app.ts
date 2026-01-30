@@ -8,7 +8,6 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('Dahua Live Stream');
   protected readonly localIp = signal('');
 
   private readonly streamUrlRaw = computed(() => {
@@ -17,7 +16,6 @@ export class App {
       return null;
     }
 
-    // Суурь тохиргоо: channel=1, subtype=0
     return `http://${ip}/cgi-bin/mjpg/video.cgi?channel=1&subtype=0`;
   });
 
