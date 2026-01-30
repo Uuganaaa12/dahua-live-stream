@@ -1,12 +1,38 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, signal } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('dahua-live-stream');
+  protected readonly title = signal('Dahua Live Stream');
+  protected readonly localIp = signal('');
+
+  private readonly streamUrlRaw = computed(() => {
+    const ip = this.localIp().trim();
+    if (!ip) {
+      return null;
+    }
+
+    // Суурь тохиргоо: channel=1, subtype=0
+    return `http://${ip}/cgi-bin/mjpg/video.cgi?channel=1&subtype=0`;
+  });
+
+  protected readonly streamUrl = computed<SafeResourceUrl | null>(() => {
+    const url = this.streamUrlRaw();
+    if (!url) {
+      return null;
+    }
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  });
+
+  constructor(private readonly sanitizer: DomSanitizer) {}
+
+  protected onIpChange(value: string): void {
+    this.localIp.set(value.trim());
+  }
 }
