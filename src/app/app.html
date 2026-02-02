@@ -1,24 +1,24 @@
 <div class="container">
-  <div class="controls">
-    <div class="control-group">
-      <label for="ip">IP :</label>
-      <input
-        type="text"
-        id="ip"
-        [value]="localIp()"
-        (input)="onIpChange($any($event.target).value)"
-        placeholder="192.168.1.200"
-      />
-    </div>
-  </div>
 
-  <div class="stream-container">
-    @if (streamUrl()) {
-      <iframe
-        [src]="streamUrl()"
-        class="stream-frame"
-        allowfullscreen
-      ></iframe>
+  <div class="grid">
+    @for (cam of cameras(); track cam.id) {
+    <div class="cam-card" (click)="open(cam)">
+      <iframe [src]="getStreamUrl(cam.ip)" loading="lazy"></iframe>
+      <div class="cam-title">{{ cam.name }}</div>
+    </div>
     }
   </div>
+
+  @if (selectedCamera()) {
+  <div class="modal-backdrop" (click)="close()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <button class="close" (click)="close()">✕</button>
+
+      <h3>{{ selectedCamera()!.name }}</h3>
+
+      <iframe [src]="getStreamUrl(selectedCamera()!.ip)"></iframe>
+    </div>
+  </div>
+  }
+
 </div>
