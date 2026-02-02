@@ -26,7 +26,7 @@ export class App {
 
 
   protected getStreamUrl(cam: Camera): SafeResourceUrl {
-    const url = `http://localhost:3000/api/cameras/${cam.id}/stream`;
+    const url = `https://dahua-server.onrender.com/api/cameras/${cam.id}/stream`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
