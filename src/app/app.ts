@@ -1,12 +1,9 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface Camera {
   id: number;
   name: string;
-  ip: string;
-  username: string;
-  password: string;
 }
 
 @Component({
@@ -16,29 +13,27 @@ interface Camera {
 })
 export class App {
 
+  // 🔒 username/password энд байхгүй!
   protected readonly cameras = signal<Camera[]>([
-    { id: 1, name: 'Camera 1', ip: '192.168.1.200', username: 'admin', password: 'admin123' },
-    { id: 2, name: 'Camera 2', ip: '192.168.1.201', username: 'admin', password: 'admin123'  },
-    { id: 3, name: 'Camera 3', ip: '192.168.1.202', username: 'admin', password: 'admin123' },
+    { id: 1, name: 'Camera 1' },
+    { id: 2, name: 'Camera 2' },
+    { id: 3, name: 'Camera 3' },
   ]);
 
   protected readonly selectedCamera = signal<Camera | null>(null);
 
-  constructor(private readonly sanitizer: DomSanitizer) {}
+  constructor(private sanitizer: DomSanitizer) {}
 
-  protected getStreamUrl(ip: string): SafeResourceUrl {
-    const camera = this.cameras().find((camera) => camera.ip === ip);
-    if (!camera) {
-      return this.sanitizer.bypassSecurityTrustResourceUrl('');
-    }
-
-    const { username, password } = camera;
-    const url = `http://${username}:${password}@${ip}/cgi-bin/mjpg/video.cgi?channel=1&subtype=0`;
+  /**
+   * Backend proxy stream URL
+   */
+  protected getStreamUrl(cam: Camera): SafeResourceUrl {
+    const url = `http://localhost:3000/api/cameras/${cam.id}/stream`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 
-  protected open(camera: Camera) {
-    this.selectedCamera.set(camera);
+  protected open(cam: Camera) {
+    this.selectedCamera.set(cam);
   }
 
   protected close() {

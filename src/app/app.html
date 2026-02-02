@@ -1,23 +1,29 @@
 <div class="container">
 
+  <!-- CAMERA GRID -->
   <div class="grid">
     @for (cam of cameras(); track cam.id) {
     <div class="cam-card" (click)="open(cam)">
-      <iframe [src]="getStreamUrl(cam.ip)" loading="lazy"></iframe>
+      <iframe [src]="getStreamUrl(cam)" loading="lazy">
+      </iframe>
       <div class="cam-title">{{ cam.name }}</div>
     </div>
     }
-  </div>  
+  </div>
 
+  <!-- POPUP MODAL -->
   @if (selectedCamera()) {
   <div class="modal-backdrop" (click)="close()">
+
     <div class="modal" (click)="$event.stopPropagation()">
       <button class="close" (click)="close()">✕</button>
 
       <h3>{{ selectedCamera()!.name }}</h3>
 
-      <iframe [src]="getStreamUrl(selectedCamera()!.ip)"></iframe>
+      <iframe [src]="getStreamUrl(selectedCamera()!)">
+      </iframe>
     </div>
+
   </div>
   }
 
