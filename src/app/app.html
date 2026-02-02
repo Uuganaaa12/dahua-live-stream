@@ -1,10 +1,9 @@
 <div class="container">
+
   <div class="grid">
     @for (cam of cameras(); track cam.id) {
     <div class="cam-card" (click)="open(cam)">
-      <!-- MJPEG stream-г <img> tag-р харуулах -->
-      <img [src]="getStreamUrlDirect(cam)" alt="{{ cam.name }}" class="camera-stream"
-        (error)="onImageError($event, cam)">
+      <iframe [src]="getStreamUrl(cam.ip)" loading="lazy"></iframe>
       <div class="cam-title">{{ cam.name }}</div>
     </div>
     }
@@ -14,9 +13,12 @@
   <div class="modal-backdrop" (click)="close()">
     <div class="modal" (click)="$event.stopPropagation()">
       <button class="close" (click)="close()">✕</button>
+
       <h3>{{ selectedCamera()!.name }}</h3>
-      <img [src]="getStreamUrlDirect(selectedCamera()!)" alt="{{ selectedCamera()!.name }}" class="camera-stream-large">
+
+      <iframe [src]="getStreamUrl(selectedCamera()!.ip)"></iframe>
     </div>
   </div>
   }
+
 </div>
