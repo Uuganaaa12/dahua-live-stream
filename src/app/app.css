@@ -4,7 +4,6 @@
   padding: 2rem;
 }
 
-/* GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -33,7 +32,6 @@
   text-align: center;
 }
 
-/* MODAL */
 .modal-backdrop {
   position: fixed;
   inset: 0;

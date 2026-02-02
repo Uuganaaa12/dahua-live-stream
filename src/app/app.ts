@@ -13,7 +13,7 @@ interface Camera {
 })
 export class App {
 
-  // 🔒 username/password энд байхгүй!
+
   protected readonly cameras = signal<Camera[]>([
     { id: 1, name: 'Camera 1' },
     { id: 2, name: 'Camera 2' },
@@ -24,9 +24,7 @@ export class App {
 
   constructor(private sanitizer: DomSanitizer) {}
 
-  /**
-   * Backend proxy stream URL
-   */
+
   protected getStreamUrl(cam: Camera): SafeResourceUrl {
     const url = `http://localhost:3000/api/cameras/${cam.id}/stream`;
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);

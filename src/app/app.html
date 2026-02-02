@@ -1,6 +1,5 @@
 <div class="container">
 
-  <!-- CAMERA GRID -->
   <div class="grid">
     @for (cam of cameras(); track cam.id) {
     <div class="cam-card" (click)="open(cam)">
@@ -11,7 +10,6 @@
     }
   </div>
 
-  <!-- POPUP MODAL -->
   @if (selectedCamera()) {
   <div class="modal-backdrop" (click)="close()">
 
