@@ -14,8 +14,7 @@ interface Camera {
 export class App {
   protected readonly cameras = signal<Camera[]>([
     { id: 1, name: 'Main Gate', ip: '192.168.1.201' },
-    { id: 2, name: 'Back Door', ip: '192.168.1.202' },
-    { id: 3, name: 'Office', ip: '192.168.1.203' }
+    { id: 2, name: 'Back Door', ip: '192.168.1.200' },
   ]);
 
   protected readonly selectedCamera = signal<Camera | null>(null);
