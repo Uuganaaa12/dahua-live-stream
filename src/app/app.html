@@ -5,13 +5,6 @@
   </div>
   }
 </div>
-<div class="grid">
-  @for (cam of cameras(); track cam.id) {
-  <div class="cam-item" (click)="open(cam)">
-    <iframe [src]="getStreamUrl(cam.ip)" class="stream-img" ></iframe>
-  </div>
-  }
-</div>
 @if (selectedCamera()) {
 <div class="modal" (click)="close()">
   <img [src]="getStreamUrl(selectedCamera()!.ip)" class="full-img" />
