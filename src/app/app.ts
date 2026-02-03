@@ -5,7 +5,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 interface Camera {
   id: number;
   ip: string;
-  name?: string;
 }
 
 @Component({
@@ -21,24 +20,23 @@ export class App implements OnInit {
   protected readonly selectedCamera = signal<Camera | null>(null);
 
   ngOnInit() {
+    // JSON унших
     this.http.get<Camera[]>('cameras.json').subscribe({
       next: (data) => this.cameras.set(data),
       error: (err) => console.error('JSON Error:', err)
     });
   }
 
-  // URL-ийг "итгэмжлэгдсэн" болгож хувиргах
+  // Angular-ийн аюулгүй байдлын алдааг (NG05604) засах функц
   protected getStreamUrl(ip: string): SafeUrl {
     const url = `http://${ip}/cgi-bin/mjpg/video.cgi`;
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  // Modal нээх функц
   protected open(camera: Camera): void {
     this.selectedCamera.set(camera);
   }
 
-  // Modal хаах функц
   protected close(): void {
     this.selectedCamera.set(null);
   }

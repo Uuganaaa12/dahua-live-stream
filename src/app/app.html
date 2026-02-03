@@ -1,7 +1,7 @@
 <div class="grid">
   @for (cam of cameras(); track cam.id) {
   <div class="cam-item" (click)="open(cam)">
-    <img [src]="getStreamUrl(cam.ip)" class="stream-img" />
+    <img [src]="getStreamUrl(cam.ip)" class="stream-img" alt="Cam Stream" />
   </div>
   }
 </div>

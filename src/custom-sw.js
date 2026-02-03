@@ -10,24 +10,24 @@ async function loadCameraConfigs() {
       map[cam.ip] = btoa(`${cam.user}:${cam.pass}`);
       return map;
     }, {});
-    console.log('SW: Camera configs loaded');
+    console.log('SW: Configs loaded');
   } catch (err) {
-    console.error('SW: Load failed', err);
+    console.error('SW: Config load failed', err);
   }
 }
 
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
+  self.skipWaiting(); // Шинэ SW-ийг шууд суулгах
   event.waitUntil(loadCameraConfigs());
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(clients.claim());
+  event.waitUntil(clients.claim()); // Бүх цонхыг шууд хяналтандаа авах
 });
 
 self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-  if (url.pathname.includes('/cgi-bin/mjpg/video.cgi')) {
+  if (event.request.url.includes('/cgi-bin/mjpg/video.cgi')) {
+    const url = new URL(event.request.url);
     const ip = url.hostname;
     const authHeader = cameraAuthMap[ip];
 
