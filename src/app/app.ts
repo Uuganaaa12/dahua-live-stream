@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 interface Camera {
   id: number;
@@ -10,16 +11,18 @@ interface Camera {
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
-export class App {
-  protected readonly cameras = signal<Camera[]>([
-    { id: 1, ip: '192.168.1.201' },
-    { id: 2, ip: '192.168.1.200' },
-  ]);
-
+export class App implements OnInit {
+  private http = inject(HttpClient);
+  protected readonly cameras = signal<Camera[]>([]);
   protected readonly selectedCamera = signal<Camera | null>(null);
 
-  protected getStreamUrl(ip: string): string {
+  ngOnInit() {
+    this.http.get<Camera[]>('/assets/cameras.json').subscribe(data => {
+      this.cameras.set(data);
+    });
+  }
 
+  protected getStreamUrl(ip: string): string {
     return `http://${ip}/cgi-bin/mjpg/video.cgi`;
   }
 

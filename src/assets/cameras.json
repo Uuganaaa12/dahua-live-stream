@@ -1,0 +1,4 @@
+[
+  { "id": 1, "ip": "192.168.1.201", "user": "admin", "pass": "admin123" },
+  { "id": 2, "ip": "192.168.1.200", "user": "admin", "pass": "admin123" }
+]

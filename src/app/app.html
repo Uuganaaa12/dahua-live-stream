@@ -1,29 +1,13 @@
-<div class="container">
-  <div class="grid">
-    @for (cam of cameras(); track cam.id) {
-    <div class="cam-card" (click)="open(cam)">
-      <div class="video-wrapper">
-        <img [src]="getStreamUrl(cam.ip)" class="live-stream" alt="{{ cam.id }}" />
-      </div>
-
-      <!-- <div class="cam-info">
-        <span class="status-dot"></span>
-        <span class="cam-name">{{ cam.name }}</span>
-      </div> -->
-    </div>
-    }
-  </div>
-
-  @if (selectedCamera()) {
-  <div class="modal-backdrop" (click)="close()">
-    <div class="modal" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <button class="close-btn" (click)="close()">✕</button>
-      </div>
-      <div class="video-wrapper modal-video">
-        <img [src]="getStreamUrl(selectedCamera()!.ip)" class="live-stream" />
-      </div>
-    </div>
+<div class="grid">
+  @for (cam of cameras(); track cam.id) {
+  <div class="cam-item" (click)="open(cam)">
+    <img [src]="getStreamUrl(cam.ip)" class="stream-img" />
   </div>
   }
 </div>
+
+@if (selectedCamera()) {
+<div class="modal" (click)="close()">
+  <img [src]="getStreamUrl(selectedCamera()!.ip)" class="full-img" />
+</div>
+}
