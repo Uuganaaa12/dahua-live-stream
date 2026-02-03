@@ -2,8 +2,14 @@
   <div class="grid">
     @for (cam of cameras(); track cam.id) {
     <div class="cam-card" (click)="open(cam)">
-      <img [src]="getStreamUrl(cam.ip)" class="stream-view" alt="Loading {{cam.name}}...">
-      <div class="cam-title">{{ cam.name }}</div>
+      <div class="video-wrapper">
+        <img [src]="getStreamUrl(cam.ip)" class="live-stream" alt="{{ cam.name }}" />
+      </div>
+
+      <div class="cam-info">
+        <span class="status-dot"></span>
+        <span class="cam-name">{{ cam.name }}</span>
+      </div>
     </div>
     }
   </div>
@@ -11,9 +17,14 @@
   @if (selectedCamera()) {
   <div class="modal-backdrop" (click)="close()">
     <div class="modal" (click)="$event.stopPropagation()">
-      <button class="close-btn" (click)="close()">✕ Close</button>
-      <h3>{{ selectedCamera()!.name }}</h3>
-      <img [src]="getStreamUrl(selectedCamera()!.ip)" class="full-stream">
+      <div class="modal-header">
+        <h3>{{ selectedCamera()!.name }}</h3>
+        <button class="close-btn" (click)="close()">✕</button>
+      </div>
+
+      <div class="video-wrapper modal-video">
+        <img [src]="getStreamUrl(selectedCamera()!.ip)" class="live-stream" />
+      </div>
     </div>
   </div>
   }

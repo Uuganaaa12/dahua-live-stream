@@ -20,7 +20,7 @@ export class App {
   protected readonly selectedCamera = signal<Camera | null>(null);
 
   protected getStreamUrl(ip: string): string {
-    // Зөвхөн IP ашиглан URL үүсгэнэ
+
     return `http://${ip}/cgi-bin/mjpg/video.cgi?channel=1&subtype=0`;
   }
 
