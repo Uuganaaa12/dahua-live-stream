@@ -4,8 +4,7 @@ importScripts('./ngsw-worker.js');
 // Камеруудын нэвтрэх мэдээлэл (IP-ээр нь ялгана)
 const cameraAuthMap = {
   '192.168.1.201': 'admin:admin123',
-  '192.168.1.202': 'admin:pass456',
-  '192.168.1.203': 'operator:view789',
+  '192.168.1.200': 'admin:admin123',
 };
 
 self.addEventListener('fetch', (event) => {
