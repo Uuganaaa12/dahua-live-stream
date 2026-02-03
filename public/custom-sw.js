@@ -32,14 +32,22 @@ self.addEventListener('fetch', (event) => {
     const authHeader = cameraAuthMap[ip];
 
     if (authHeader) {
+      // Шинээр Headers объект үүсгэж Authorization нэмэх
+      const newHeaders = new Headers(event.request.headers);
+      newHeaders.set('Authorization', `Basic ${authHeader}`);
+
       const modifiedRequest = new Request(event.request, {
-        headers: {
-          ...event.request.headers,
-          Authorization: `Basic ${authHeader}`,
-        },
-        mode: 'cors',
+        headers: newHeaders,
+        mode: 'cors', // Камер өөр IP дээр байгаа тул cors байх ёстой
+        credentials: 'omit', // Хөтөчийн өөрийн cache-лагдсан login-г ашиглахгүй
       });
-      event.respondWith(fetch(modifiedRequest));
+
+      event.respondWith(
+        fetch(modifiedRequest).catch((err) => {
+          console.error('Fetch failed, trying without auth:', err);
+          return fetch(event.request);
+        }),
+      );
     }
   }
 });
