@@ -5,7 +5,7 @@ interface Camera {
   id: number;
   ip: string;
 }
-
+  
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
