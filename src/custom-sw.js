@@ -4,7 +4,7 @@ let cameraAuthMap = {};
 
 async function loadCameraConfigs() {
   try {
-    const response = await fetch('/assets/cameras.json');
+    const response = await fetch('cameras.json');
     const cameras = await response.json();
 
     cameraAuthMap = cameras.reduce((map, cam) => {

@@ -17,7 +17,7 @@ export class App implements OnInit {
   protected readonly selectedCamera = signal<Camera | null>(null);
 
   ngOnInit() {
-    this.http.get<Camera[]>('/assets/cameras.json').subscribe(data => {
+    this.http.get<Camera[]>('cameras.json').subscribe(data => {
       this.cameras.set(data);
     });
   }
