@@ -29,25 +29,38 @@ self.addEventListener('fetch', (event) => {
   if (event.request.url.includes('/cgi-bin/mjpg/video.cgi')) {
     const url = new URL(event.request.url);
     const ip = url.hostname;
+    // const authHeader = cameraAuthMap[ip];
+
+    // if (authHeader) {
+    //   // Шинээр Headers объект үүсгэж Authorization нэмэх
+    //   const newHeaders = new Headers(event.request.headers);
+    //   newHeaders.set('Authorization', `Basic ${authHeader}`);
+
+    //   const modifiedRequest = new Request(event.request, {
+    //     headers: newHeaders,
+    //     mode: 'cors', // Камер өөр IP дээр байгаа тул cors байх ёстой
+    //     credentials: 'omit', // Хөтөчийн өөрийн cache-лагдсан login-г ашиглахгүй
+    //   });
+
+    //   event.respondWith(
+    //     fetch(modifiedRequest).catch((err) => {
+    //       console.error('Fetch failed, trying without auth:', err);
+    //       return fetch(event.request);
+    //     }),
+    //   );
+    // }
     const authHeader = cameraAuthMap[ip];
-
     if (authHeader) {
-      // Шинээр Headers объект үүсгэж Authorization нэмэх
-      const newHeaders = new Headers(event.request.headers);
-      newHeaders.set('Authorization', `Basic ${authHeader}`);
-
+      // Header-ээр биш URL-ээр оролдож үзэх (зарим камер дэмждэг)
+      // Эсвэл хөтөч Mixed Content блоклохгүй байхын тулд заавал HTTP вэб дээрээс дуудах
       const modifiedRequest = new Request(event.request, {
-        headers: newHeaders,
-        mode: 'cors', // Камер өөр IP дээр байгаа тул cors байх ёстой
-        credentials: 'omit', // Хөтөчийн өөрийн cache-лагдсан login-г ашиглахгүй
+        headers: {
+          Authorization: `Basic ${authHeader}`,
+        },
+        mode: 'cors',
       });
 
-      event.respondWith(
-        fetch(modifiedRequest).catch((err) => {
-          console.error('Fetch failed, trying without auth:', err);
-          return fetch(event.request);
-        }),
-      );
+      event.respondWith(fetch(modifiedRequest));
     }
   }
 });
